@@ -1,0 +1,18 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+  height: 100%;
+  width: 100%;
+  font-family: 'Consolas', monospace; /* Apply Consolas font globally */
+  z-index: 1; /* Ensure the frame is behind the main menu */
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Ensure z-index works */
+}
