@@ -21,11 +21,14 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist',  // Output directory for production
+    outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: './index.html',  // Ensures index.html is included in build
+      input: './index.html',
     },
   },
-  publicDir: 'public',  // Serve static files from public
+  server: {
+    port: 3000
+  },
+  publicDir: 'public'
 });
