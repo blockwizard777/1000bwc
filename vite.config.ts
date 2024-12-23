@@ -4,32 +4,28 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
 
 export default defineConfig({
-  root: '.',  // Root directory for the client app
   plugins: [
     react(),
     viteStaticCopy({
       targets: [
         {
-          src: 'public/*',  // Copy all files from public/
-          dest: '',         // Place them in the root of dist
+          src: 'public/*',
+          dest: '',
         }
       ],
     }),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),  // Shortcut for src imports
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   build: {
-    outDir: 'dist',  // Output to dist inside client directory
-    emptyOutDir: true,  // Clean dist folder before each build
+    outDir: 'dist',  // Output directory for production
+    emptyOutDir: true,
     rollupOptions: {
-      input: './index.html',  // Include index.html for the build
-      output: {
-        assetFileNames: 'assets/[name].[hash][extname]',  // Cache busting for assets
-      },
+      input: './index.html',  // Ensures index.html is included in build
     },
   },
-  publicDir: 'public',  // Serve static files from public/
+  publicDir: 'public',  // Serve static files from public
 });
