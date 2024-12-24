@@ -17,7 +17,7 @@ const DeckEditing: React.FC = () => {
 
   useEffect(() => {
     const fetchDeckInfo = async () => {
-      const response = await axios.get("http://localhost:3000/deck-info", {
+      const response = await axios.get("https://100bwc-production.up.railway.app:3000/deck-info", {
         params: { deckName },
       });
       if (response.data.success) {
@@ -30,7 +30,7 @@ const DeckEditing: React.FC = () => {
     };
 
     const fetchDeckCards = async () => {
-      const response = await axios.get("http://localhost:3000/deck-cards", {
+      const response = await axios.get("https://100bwc-production.up.railway.app:3000/deck-cards", {
         params: { deckName },
       });
       if (response.data.success) {
@@ -66,7 +66,7 @@ const DeckEditing: React.FC = () => {
     cards.forEach((card) => formData.append("cards", card));
 
     try {
-      const response = await axios.post("http://localhost:3000/edit-deck", formData);
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/edit-deck", formData);
       if (response.data.success) {
         alert("Deck updated successfully.");
         navigate("/edit-deck");
@@ -84,11 +84,11 @@ const DeckEditing: React.FC = () => {
     cards.forEach((card) => formData.append("cards", card));
 
     try {
-      const response = await axios.post("http://localhost:3000/upload-cards", formData);
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/upload-cards", formData);
       if (response.data.success) {
         alert("Cards uploaded successfully.");
         setCards([]);
-        const updatedDeckCards = await axios.get("http://localhost:3000/deck-cards", {
+        const updatedDeckCards = await axios.get("https://100bwc-production.up.railway.app:3000/deck-cards", {
           params: { deckName },
         });
         setExistingCards(updatedDeckCards.data.files);
@@ -104,7 +104,7 @@ const DeckEditing: React.FC = () => {
     setSelectedCard(filename);
     setCardDescription("");
     setCardValues([]);
-    const response = await axios.get("http://localhost:3000/card-info", {
+    const response = await axios.get("https://100bwc-production.up.railway.app:3000/card-info", {
       params: { deckName, cardName: filename },
     });
     if (response.data.success) {
@@ -119,7 +119,7 @@ const DeckEditing: React.FC = () => {
 
   const handleDeleteCard = async () => {
     try {
-      await axios.post("http://localhost:3000/delete-card", { deckName, cardName: selectedCard });
+      await axios.post("https://100bwc-production.up.railway.app:3000/delete-card", { deckName, cardName: selectedCard });
       setExistingCards(existingCards.filter(card => card !== selectedCard));
       setSelectedCard(null);
     } catch (error) {
@@ -129,7 +129,7 @@ const DeckEditing: React.FC = () => {
 
   const handleDeleteCardAndJson = async () => {
     try {
-      await axios.post("http://localhost:3000/delete-card-and-json", { deckName, cardName: selectedCard });
+      await axios.post("https://100bwc-production.up.railway.app:3000/delete-card-and-json", { deckName, cardName: selectedCard });
       setExistingCards(existingCards.filter(card => card !== selectedCard));
       setSelectedCard(null);
     } catch (error) {
@@ -139,7 +139,7 @@ const DeckEditing: React.FC = () => {
 
   const handleDeleteAdditionalCard = async (filename: string) => {
     try {
-      const response = await axios.post("http://localhost:3000/remove-additional-card", {
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/remove-additional-card", {
         deckName,
         cardName: selectedCard,
         additionalCardName: filename,
@@ -170,7 +170,7 @@ const DeckEditing: React.FC = () => {
         values: cardValues,
         additionalFiles,
       });
-      const response = await axios.post("http://localhost:3000/save-card", formData);
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/save-card", formData);
       if (response.data.success) {
         alert("Card saved successfully.");
         setSelectedCard(null);
@@ -201,14 +201,14 @@ const DeckEditing: React.FC = () => {
         values: cardValues,
         additionalFiles,
       });
-      const response = await axios.post("http://localhost:3000/save-card", formData);
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/save-card", formData);
       if (response.data.success) {
         alert("Additional files uploaded successfully.");
         setAdditionalFiles([]);
         setSelectedCard(null);
         setCardDescription("");
         setCardValues([]);
-        const updatedDeckCards = await axios.get("http://localhost:3000/deck-cards", {
+        const updatedDeckCards = await axios.get("https://100bwc-production.up.railway.app:3000/deck-cards", {
           params: { deckName },
         });
         setExistingCards(updatedDeckCards.data.files);
@@ -265,7 +265,7 @@ const DeckEditing: React.FC = () => {
           </form>
           <div style={styles.cardGrid}>
             {existingCards.map((filename) => {
-              const imageUrl = `http://localhost:3000/decks/${deckName}/cards/${filename}`;
+              const imageUrl = `https://100bwc-production.up.railway.app:3000/decks/${deckName}/cards/${filename}`;
               console.log("Image URL:", imageUrl); // Add console log to check the image URL
               return (
                 <div key={filename} style={styles.cardItem} onClick={() => handleSelectCard(filename)}>
@@ -288,7 +288,7 @@ const DeckEditing: React.FC = () => {
                 Return
               </button>
             </div>
-            <img src={`http://localhost:3000/decks/${deckName}/cards/${selectedCard}`} alt="card" style={styles.cardImageLarge} />
+            <img src={`https://100bwc-production.up.railway.app:3000/decks/${deckName}/cards/${selectedCard}`} alt="card" style={styles.cardImageLarge} />
             <textarea
               placeholder="Description"
               value={cardDescription}
@@ -330,7 +330,7 @@ const DeckEditing: React.FC = () => {
               <h3>Additional Cards:</h3>
               <div style={styles.additionalCardsGrid}>
                 {additionalCards.map((filename) => {
-                  const imageUrl = `http://localhost:3000/decks/${deckName}/additional/${filename}`;
+                  const imageUrl = `https://100bwc-production.up.railway.app:3000/decks/${deckName}/additional/${filename}`;
                   return (
                     <div key={filename} style={styles.cardItem}>
                       <img src={imageUrl} alt="additional card" style={styles.cardImage} />

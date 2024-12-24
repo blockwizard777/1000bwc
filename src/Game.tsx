@@ -73,7 +73,7 @@ const Game: React.FC = () => {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/scores`, { params: { roomName } });
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/scores`, { params: { roomName } });
         if (response.data.success) {
           setScores(response.data.scores);
         }
@@ -91,7 +91,7 @@ const Game: React.FC = () => {
 
     if (scoreName && !isNaN(defaultValue)) {
       try {
-        const response = await axios.post("http://localhost:3000/create-score", { roomName, scoreName, defaultValue });
+        const response = await axios.post("https://100bwc-production.up.railway.app:3000/create-score", { roomName, scoreName, defaultValue });
         if (response.data.success) {
           setScores((prevScores: any) => ({
             ...prevScores,
@@ -111,7 +111,7 @@ const Game: React.FC = () => {
 
   const handleDeleteScore = async (scoreName: string) => {
     try {
-      const response = await axios.post("http://localhost:3000/delete-score", { roomName, scoreName });
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/delete-score", { roomName, scoreName });
       if (response.data.success) {
         setScores((prevScores: any) => {
           const newScores = { ...prevScores };
@@ -191,7 +191,7 @@ const Game: React.FC = () => {
   };
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://100bwc-production.up.railway.app:3000");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
@@ -226,8 +226,8 @@ const Game: React.FC = () => {
     newSocket.on("updateHands", async () => {
       console.log("Received updateHands event");
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${username}`);
-        const handUrls = response.data.hand.map((card: string) => `http://localhost:3000${card}`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${username}`);
+        const handUrls = response.data.hand.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`);
         setHandCards(handUrls);
         console.log("Updated hand cards:", handUrls);
       } catch (error) {
@@ -251,7 +251,7 @@ const Game: React.FC = () => {
 
     const fetchHandCards = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${username}.json`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${username}.json`);
         setHandCards(response.data.hand);
         //setIsHost(response.data.isHost); // Retrieve isHost value
       } catch (error) {
@@ -261,7 +261,7 @@ const Game: React.FC = () => {
 
     const fetchPlayers = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/players`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/players`);
         if (response.data.success) {
           setPlayers(response.data.players);
         }
@@ -345,7 +345,7 @@ const Game: React.FC = () => {
     setDeckMenuVisible(false);
     if (socket) {
       if (option === "Draw") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName: "main", count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName: "main", count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("drawCard", { roomName, username, deckName: "main" });
@@ -357,7 +357,7 @@ const Game: React.FC = () => {
             console.error("Error checking deck:", error);
           });
       } else if (option === "Deal") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName: "main", count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName: "main", count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("dealCard", { roomName, username, deckName: "main" });
@@ -369,7 +369,7 @@ const Game: React.FC = () => {
             console.error("Error checking deck:", error);
           });
       } else if (option === "To Field") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName: "main", count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName: "main", count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("drawCardToField", { roomName, username, deckName: "main" });
@@ -383,10 +383,10 @@ const Game: React.FC = () => {
       } else if (option === "Peek") {
         const count = parseInt(prompt("Enter the number of cards to view:")||"", 10);
         if (count > 0) {
-          axios.post("http://localhost:3000/peek-deck", { roomName, deckName: "main", count })
+          axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName: "main", count })
             .then(response => {
               if (response.data.success) {
-                setPeekCards(response.data.cards.map((card: string) => `http://localhost:3000${card}`));
+                setPeekCards(response.data.cards.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`));
                 setShowPeekPopup(true);
                 logAction({ player: username, action: `viewed <b>${count}</b> cards from the deck`, backgroundColor: "#e6e6fa" }); // Light purple background
               } else {
@@ -408,7 +408,7 @@ const Game: React.FC = () => {
     setAdditionalDeckMenuVisible(!additionalDeckMenuVisible);
     if (!additionalDeckMenuVisible) {
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/decks`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/decks`);
         const uniqueDecks = response.data.decks.filter((deck: string) => deck !== "main" && deck !== "discard");
         setAvailableDecks(uniqueDecks);
       } catch (error) {
@@ -423,7 +423,7 @@ const Game: React.FC = () => {
     setAdditionalDeckMenuVisible(false);
     if (socket) {
       if (option === "Draw") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName, count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName, count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("drawCard", { roomName, username, deckName });
@@ -435,7 +435,7 @@ const Game: React.FC = () => {
             console.error("Error checking deck:", error);
           });
       } else if (option === "Deal") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName, count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName, count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("dealCard", { roomName, username, deckName });
@@ -447,7 +447,7 @@ const Game: React.FC = () => {
             console.error("Error checking deck:", error);
           });
       } else if (option === "To Field") {
-        axios.post("http://localhost:3000/peek-deck", { roomName, deckName, count: 1 })
+        axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName, count: 1 })
           .then(response => {
             if (response.data.success && response.data.cards.length > 0) {
               socket.emit("drawCardToField", { roomName, username, deckName });
@@ -461,10 +461,10 @@ const Game: React.FC = () => {
       } else if (option === "Peek") {
         const count = parseInt(prompt("Enter the number of cards to view:")||"", 10);
         if (count > 0) {
-          axios.post("http://localhost:3000/peek-deck", { roomName, deckName, count })
+          axios.post("https://100bwc-production.up.railway.app:3000/peek-deck", { roomName, deckName, count })
             .then(response => {
               if (response.data.success) {
-                setPeekCards(response.data.cards.map((card: string) => `http://localhost:3000${card}`));
+                setPeekCards(response.data.cards.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`));
                 setShowPeekPopup(true);
                 logAction({ player: username, action: `viewed <b>${count}</b> cards from the <b>${deckName}</b> deck`, backgroundColor: "#e6e6fa" }); // Light purple background
               } else {
@@ -482,7 +482,7 @@ const Game: React.FC = () => {
   useEffect(() => {
     if (socket) {
       socket.on("cardDrawnToField", async (cardUrl) => {
-        const flippedCardUrl = "http://localhost:3000/assets/FLIPPED.png";
+        const flippedCardUrl = "https://100bwc-production.up.railway.app:3000/assets/FLIPPED.png";
         const img = new Image();
         img.src = flippedCardUrl;
         img.onload = async () => {
@@ -509,8 +509,8 @@ const Game: React.FC = () => {
     setHandVisible(!handVisible);
     if (!handVisible) {
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${username}`);
-        const handUrls = response.data.hand.map((card: string) => `http://localhost:3000${card}`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${username}`);
+        const handUrls = response.data.hand.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`);
         setHandCards(handUrls);
       } catch (error) {
         console.error("Error fetching hand cards:", error);
@@ -530,7 +530,7 @@ const Game: React.FC = () => {
 
   const handlePlayCard = async () => {
     if (socket && selectedCard) {
-      const cardUrl = selectedCard.startsWith("/assets/") ? `http://localhost:3000${selectedCard}` : selectedCard;
+      const cardUrl = selectedCard.startsWith("/assets/") ? `https://100bwc-production.up.railway.app:3000${selectedCard}` : selectedCard;
       const img = new Image();
       img.src = cardUrl;
       img.onload = async () => {
@@ -561,7 +561,7 @@ const Game: React.FC = () => {
 
   const handlePlayFlippedCard = async () => {
     if (socket && selectedCard) {
-      const flippedCardUrl = "http://localhost:3000/assets/FLIPPED.png";
+      const flippedCardUrl = "https://100bwc-production.up.railway.app:3000/assets/FLIPPED.png";
       const img = new Image();
       img.src = flippedCardUrl;
       img.onload = async () => {
@@ -620,7 +620,7 @@ const Game: React.FC = () => {
         formData.append("username", username);
 
         try {
-          const response = await axios.post("http://localhost:3000/upload-card-image", formData, {
+          const response = await axios.post("https://100bwc-production.up.railway.app:3000/upload-card-image", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -693,7 +693,7 @@ const Game: React.FC = () => {
   const handleFlip = async () => {
     if (socket && selectedKonvaCard) {
       const isFlipped = selectedKonvaCard.src.includes("FLIPPED.png");
-      const cardUrl = isFlipped ? selectedKonvaCard.data?.originalCard : selectedKonvaCard.data?.originalCard || "http://localhost:3000/assets/FLIPPED.png";
+      const cardUrl = isFlipped ? selectedKonvaCard.data?.originalCard : selectedKonvaCard.data?.originalCard || "https://100bwc-production.up.railway.app:3000/assets/FLIPPED.png";
       if (!cardUrl) {
         console.error("Original card URL not found.");
         return;
@@ -754,10 +754,10 @@ const Game: React.FC = () => {
       const deckName = deckNameMatch ? deckNameMatch[1] : null;
 
       let additionalCardUrl;
-      if (additionalCard.startsWith("http://localhost:3000")) {
+      if (additionalCard.startsWith("https://100bwc-production.up.railway.app:3000")) {
         additionalCardUrl = additionalCard;
       } else if (deckName) {
-        additionalCardUrl = `http://localhost:3000/decks/${deckName}/additional/${additionalCard}`;
+        additionalCardUrl = `https://100bwc-production.up.railway.app:3000/decks/${deckName}/additional/${additionalCard}`;
       } else {
         console.error("Deck name could not be determined from the main card URL.");
         return;
@@ -812,7 +812,7 @@ const Game: React.FC = () => {
       socket.emit("updateImagePositions", { roomName, images: images.map((img) => (img === selectedKonvaCard ? updatedCard : img)) });
 
       try {
-        await axios.post("http://localhost:3000/save-konva-card", {
+        await axios.post("https://100bwc-production.up.railway.app:3000/save-konva-card", {
           roomName,
           card: updatedCard,
         });
@@ -855,7 +855,7 @@ const Game: React.FC = () => {
 
   const handleShuffleIn = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/decks`);
+      const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/decks`);
       const uniqueDecks = ["main", ...new Set((response.data.decks as string[]).filter((deck: string) => deck !== "main" && deck !== "discard"))];
       setAvailableDecks(uniqueDecks);
       setShowDeckListPopup(true);
@@ -866,9 +866,9 @@ const Game: React.FC = () => {
 
   const handleShuffleInDeckSelect = async (deckName: string) => {
     if (socket && selectedKonvaCard) {
-      const formattedCardUrl = selectedKonvaCard.src.startsWith("http://localhost:3000") ? selectedKonvaCard.src.replace("http://localhost:3000", "") : selectedKonvaCard.src;
+      const formattedCardUrl = selectedKonvaCard.src.startsWith("https://100bwc-production.up.railway.app:3000") ? selectedKonvaCard.src.replace("https://100bwc-production.up.railway.app:3000", "") : selectedKonvaCard.src;
       try {
-        const response = await axios.post("http://localhost:3000/shuffle-in-card", {
+        const response = await axios.post("https://100bwc-production.up.railway.app:3000/shuffle-in-card", {
           roomName,
           cardUrl: formattedCardUrl,
           deckName,
@@ -895,7 +895,7 @@ const Game: React.FC = () => {
     if (socket) {
       try {
         const oldValue = scores[scoreName].find((player: any) => player.name === playerName).value;
-        await axios.post("http://localhost:3000/update-score", { roomName, scoreName, playerName, newValue });
+        await axios.post("https://100bwc-production.up.railway.app:3000/update-score", { roomName, scoreName, playerName, newValue });
         logAction({
           player: username,
           action: `updated <b>${playerName}</b>'s <b>${scoreName}</b> from <b>${oldValue}</b> to <b>${newValue}</b>`,
@@ -989,7 +989,7 @@ const Game: React.FC = () => {
 
     if (scoreName && !isNaN(defaultValue)) {
       try {
-        const response = await axios.post("http://localhost:3000/create-score", { roomName, scoreName, defaultValue });
+        const response = await axios.post("https://100bwc-production.up.railway.app:3000/create-score", { roomName, scoreName, defaultValue });
         if (response.data.success) {
           setScores((prevScores: any) => ({
             ...prevScores,
@@ -1007,7 +1007,7 @@ const Game: React.FC = () => {
 
   const handleRemoveScore = async (scoreName: string) => {
     try {
-      const response = await axios.post("http://localhost:3000/delete-score", { roomName, scoreName });
+      const response = await axios.post("https://100bwc-production.up.railway.app:3000/delete-score", { roomName, scoreName });
       if (response.data.success) {
         setScores((prevScores: any) => {
           const newScores = { ...prevScores };
@@ -1026,7 +1026,7 @@ const Game: React.FC = () => {
   const handlePlayersButtonClick = async () => {
     console.log("Fetching players for room:", roomName);
     try {
-      const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/players`);
+      const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/players`);
       console.log("Server response:", response.data);
       if (response.data.success) {
         setPlayers(response.data.players);
@@ -1052,8 +1052,8 @@ const Game: React.FC = () => {
       if (count > 0) {
         setRevealLimit(count); // Save the reveal limit
         try {
-          const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${selectedPlayer}`);
-          const handUrls = response.data.hand.map((card: string) => `http://localhost:3000${card}`);
+          const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${selectedPlayer}`);
+          const handUrls = response.data.hand.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`);
           setViewingCards(handUrls);
           setViewingCardIndices([]); // Initially, no cards are revealed
           setHandVisible(false);
@@ -1069,8 +1069,8 @@ const Game: React.FC = () => {
   const handleStealCards = async () => {
     if (selectedPlayer) {
       try {
-        const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${selectedPlayer}`);
-        const handUrls = response.data.hand.map((card: string) => `http://localhost:3000${card}`);
+        const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${selectedPlayer}`);
+        const handUrls = response.data.hand.map((card: string) => `https://100bwc-production.up.railway.app:3000${card}`);
         setStealCards(handUrls);
         setStealCardIndices([]); // Initially, no cards are revealed
         setHandVisible(false);
@@ -1105,8 +1105,8 @@ const Game: React.FC = () => {
   const handleToHand = async () => {
     if (socket && selectedKonvaCard) {
       try {
-        const formattedCardUrl = selectedKonvaCard.src.startsWith("http://localhost:3000") ? selectedKonvaCard.src.replace("http://localhost:3000", "") : selectedKonvaCard.src;
-        const response = await axios.post("http://localhost:3000/add-card-to-hand", {
+        const formattedCardUrl = selectedKonvaCard.src.startsWith("https://100bwc-production.up.railway.app:3000") ? selectedKonvaCard.src.replace("https://100bwc-production.up.railway.app:3000", "") : selectedKonvaCard.src;
+        const response = await axios.post("https://100bwc-production.up.railway.app:3000/add-card-to-hand", {
           roomName,
           username,
           cardUrl: formattedCardUrl,
@@ -1134,12 +1134,12 @@ const Game: React.FC = () => {
 
   const handleCountCards = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/lobbies/${roomName}/players`);
+      const response = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/players`);
       if (response.data.success) {
         const players = response.data.players;
         const cardCounts: { [key: string]: number } = {};
         for (const player of players) {
-          const handResponse = await axios.get(`http://localhost:3000/lobbies/${roomName}/hands/${player}`);
+          const handResponse = await axios.get(`https://100bwc-production.up.railway.app:3000/lobbies/${roomName}/hands/${player}`);
           cardCounts[player] = handResponse.data.hand.length;
         }
         setPlayerCardCounts(cardCounts);
@@ -1292,7 +1292,7 @@ const Game: React.FC = () => {
       </button>
       {chatVisible && (
         <img
-          src="http://localhost:3000/assets/COOKIE.png"
+          src="https://100bwc-production.up.railway.app:3000/assets/COOKIE.png"
           alt="Cookie"
           style={styles.cookieImage}
           onClick={handleCookieClick}
@@ -1392,7 +1392,7 @@ const Game: React.FC = () => {
               const mainCardUrl = selectedKonvaCard.src;
               const deckNameMatch = mainCardUrl.match(/\/decks\/([^/]+)\//);
               const deckName = deckNameMatch ? deckNameMatch[1] : null;
-              const additionalCardUrl = deckName ? `http://localhost:3000/decks/${deckName}/additional/${additionalCard}` : null;
+              const additionalCardUrl = deckName ? `https://100bwc-production.up.railway.app:3000/decks/${deckName}/additional/${additionalCard}` : null;
 
               if (!additionalCardUrl) {
                 console.error("Additional card URL could not be determined.");

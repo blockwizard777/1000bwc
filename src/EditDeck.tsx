@@ -13,7 +13,7 @@ const EditDeck: React.FC = () => {
 
   useEffect(() => {
     const fetchDecks = async () => {
-      const response = await axios.get("http://localhost:3000/search-decks", {
+      const response = await axios.get("https://100bwc-production.up.railway.app:3000/search-decks", {
         params: { keyword: keyword.toLowerCase(), page },
       });
       setDecks(response.data.decks);
@@ -27,7 +27,7 @@ const EditDeck: React.FC = () => {
   };
 
   const handleSubmitPassword = async () => {
-    const response = await axios.post("http://localhost:3000/validate-deck-password", {
+    const response = await axios.post("https://100bwc-production.up.railway.app:3000/validate-deck-password", {
       deckName: selectedDeck,
       editPassword,
     });
@@ -65,7 +65,7 @@ onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = styles.button.back
       <div style={styles.deckList}>
         {decks.map((deck) => (
           <div key={deck.deckName} style={styles.deckItem}>
-            <img src={`http://localhost:3000/decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
+            <img src={`https://100bwc-production.up.railway.app:3000/decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
             <div style={styles.deckInfo}>
               <h3>{deck.deckName}</h3>
               <p>{deck.description}</p>
