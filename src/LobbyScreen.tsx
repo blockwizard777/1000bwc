@@ -29,7 +29,7 @@ const LobbyScreen: React.FC = () => {
   const [selectedDeckInfo, setSelectedDeckInfo] = useState<any>(null); // Add state for selected deck info
 
   useEffect(() => {
-    const newSocket = io("https://100bwc-production.up.railway.app:3000");
+    const newSocket = io("https://100bwc-xi.vercel.app/");
     setSocket(newSocket);
 
     console.log("Joining room:", roomName, "with username:", username);
@@ -84,7 +84,7 @@ const LobbyScreen: React.FC = () => {
     } else {
       const password = prompt("Enter usage password:");
       if (password) {
-        const response = await axios.post("https://100bwc-production.up.railway.app:3000/validate-usage-password", {
+        const response = await axios.post("https://100bwc-xi.vercel.app//validate-usage-password", {
           deckName: deck.deckName,
           usagePassword: password,
         });
@@ -120,11 +120,11 @@ const LobbyScreen: React.FC = () => {
 
   useEffect(() => {
     const fetchDecks = async () => {
-      const response = await axios.get("https://100bwc-production.up.railway.app:3000/search-decks", {
+      const response = await axios.get("https://100bwc-xi.vercel.app//search-decks", {
         params: { keyword: keyword.toLowerCase(), page },
       });
       const decksWithInfo = await Promise.all(response.data.decks.map(async (deck: any) => {
-        const deckInfoResponse = await axios.get("https://100bwc-production.up.railway.app:3000/deck-info", {
+        const deckInfoResponse = await axios.get("https://100bwc-xi.vercel.app//deck-info", {
           params: { deckName: deck.deckName },
         });
         return { 
@@ -558,7 +558,7 @@ const LobbyScreen: React.FC = () => {
             {selectedDecks.map((deck) => (
               <div key={deck.id} style={styles.deckItem}>
                 <button style={styles.removeButton} onClick={() => handleRemoveDeck(deck.id)}>X</button>
-                <img src={`https://100bwc-production.up.railway.app:3000/decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
+                <img src={`https://100bwc-xi.vercel.app//decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
                 <span style={styles.deckNameText}>{deck.deckName}</span>
               </div>
             ))}
@@ -570,7 +570,7 @@ const LobbyScreen: React.FC = () => {
             {additionalDecks.map((deck) => (
               <div key={deck.id} style={styles.deckItem}>
                 <button style={styles.removeButton} onClick={() => handleRemoveAdditionalDeck(deck.id)}>X</button>
-                <img src={`https://100bwc-production.up.railway.app:3000/decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
+                <img src={`https://100bwc-xi.vercel.app//decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.thumbnail} />
                 <span style={styles.deckNameText}>{deck.deckName}</span>
               </div>
             ))}
@@ -601,7 +601,7 @@ const LobbyScreen: React.FC = () => {
                   Select
                 </button>
                 {deck.starred && <span style={{ marginRight: "5px" }}>⭐</span>}
-                <img src={`https://100bwc-production.up.railway.app:3000/decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.deckThumbnail} />
+                <img src={`https://100bwc-xi.vercel.app//decks/${deck.deckName}/important/${deck.thumbnail}`} alt="thumbnail" style={styles.deckThumbnail} />
                 <span style={styles.deckNameText}>{deck.deckName}</span>
                 <button style={styles.expandButton} onClick={() => handleExpandDeck(deck)}>Expand</button>
               </li>
@@ -620,7 +620,7 @@ const LobbyScreen: React.FC = () => {
         <div style={styles.deckInfoOverlay} onClick={handlePopupClick}>
           <div style={styles.deckInfoPopup}>
             <h2>{selectedDeckInfo.deckName}</h2>
-            <img src={`https://100bwc-production.up.railway.app:3000/decks/${selectedDeckInfo.deckName}/important/${selectedDeckInfo.thumbnail}`} alt="thumbnail" style={styles.enlargedThumbnail} />
+            <img src={`https://100bwc-xi.vercel.app//decks/${selectedDeckInfo.deckName}/important/${selectedDeckInfo.thumbnail}`} alt="thumbnail" style={styles.enlargedThumbnail} />
             <p>{selectedDeckInfo.description}</p>
           </div>
         </div>

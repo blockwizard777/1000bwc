@@ -10,7 +10,7 @@ const MainMenu: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const newSocket = io("https://100bwc-production.up.railway.app:3000");
+    const newSocket = io("https://100bwc-xi.vercel.app/");
     setSocket(newSocket);
 
     // Clean up the socket connection on unmount

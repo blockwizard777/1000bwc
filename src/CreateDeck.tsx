@@ -36,7 +36,7 @@ const CreateDeck: React.FC = () => {
     if (!isPublic) formData.append("usagePassword", usagePassword);
 
     try {
-      const response = await axios.post("https://100bwc-production.up.railway.app:3000/create-deck", formData);
+      const response = await axios.post("https://100bwc-xi.vercel.app//create-deck", formData);
       if (response.data.success) {
         navigate("/edit-cards");
       } else {
